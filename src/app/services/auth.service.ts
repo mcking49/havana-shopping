@@ -86,4 +86,12 @@ export class AuthService {
   public login(email: string, password: string): Promise<firebase.auth.UserCredential> {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password);
   }
+
+  /**
+   * Logout of the app.
+   * @returns - Resolves when the user is logged out.
+   */
+  public logout(): Promise<void> {
+    return this.afAuth.auth.signOut();
+  }
 }
