@@ -1,7 +1,7 @@
 {
-  "name": "app",
-  "short_name": "app",
-  "theme_color": "#1976d2",
+  "name": "Havana Shopping",
+  "short_name": "Havana Shopping",
+  "theme_color": "#3880ff",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "/",

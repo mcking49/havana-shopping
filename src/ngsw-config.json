@@ -2,7 +2,7 @@
   "index": "/index.html",
   "assetGroups": [
     {
-      "name": "app",
+      "name": "Havana Shopping",
       "installMode": "prefetch",
       "resources": {
         "files": [
