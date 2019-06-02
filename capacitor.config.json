@@ -1,0 +1,7 @@
+{
+  "appId": "io.ionic.starter",
+  "appName": "havana-shopping",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www"
+}

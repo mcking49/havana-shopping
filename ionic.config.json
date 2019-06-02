@@ -1,0 +1,7 @@
+{
+  "name": "havana-shopping",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
