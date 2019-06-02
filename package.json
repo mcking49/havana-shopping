@@ -10,7 +10,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "dev": "ionic serve -c"
+    "dev": "ionic serve -c",
+    "deploy:staging": "ionic build && firebase use default && firebase deploy",
+    "deploy:production": "ionic build --prod && firebase use production && firebase deploy"
   },
   "private": true,
   "dependencies": {

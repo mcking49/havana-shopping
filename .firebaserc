@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "havana-shopping-staging",
+    "production": "havana-shopping"
+  }
+}
