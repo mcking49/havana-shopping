@@ -1,15 +1,16 @@
 {
   "name": "havana-shopping",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "author": "Power of Ten",
+  "homepage": "https://github.com/mcking49/havana-shopping",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "dev": "ionic serve -c"
   },
   "private": true,
   "dependencies": {
@@ -57,5 +58,5 @@
     "tslint": "~5.17.0",
     "typescript": "~3.1.6"
   },
-  "description": "An Ionic project"
+  "description": "A simple team based shopping app so everyone in your household knows exactly what is on the shopping list."
 }
