@@ -25,7 +25,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     AngularFirestoreModule,
     AngularFireAuthModule,
     AppRoutingModule,
-    ServiceWorkerModule.register('ngsw-worker.js')
+    ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.enableSW})
   ],
   providers: [
     StatusBar,
