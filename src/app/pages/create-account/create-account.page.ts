@@ -54,7 +54,11 @@ export class CreateAccountPage implements OnInit {
         await this.authService.createAdminUser(firstname, lastname, email, password);
         this.router.navigateByUrl('/tabs');
       } catch (error) {
-        console.error(error);
+        if (error.code === 'auth/email-already-in-use') {
+          this.toastService.showInfoToast(`ERROR: ${error.message}`);
+        } else {
+          console.error(error);
+        }
       } finally {
         loading.dismiss();
       }
