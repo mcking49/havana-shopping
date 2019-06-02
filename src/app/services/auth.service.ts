@@ -23,4 +23,14 @@ export class AuthService {
       });
     });
   }
+
+  /**
+   * Login to the app with an email and password.
+   * @param email - The email to login in with.
+   * @param password - The password to login with.
+   * @returns - Resolves when the login attempt has finished.
+   */
+  public login(email: string, password: string): Promise<firebase.auth.UserCredential> {
+    return this.afAuth.auth.signInWithEmailAndPassword(email, password);
+  }
 }

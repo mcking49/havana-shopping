@@ -1,0 +1,16 @@
+.login {
+  > .button-container {
+    display: flex;
+    justify-content: center;
+  }
+  > .title {
+    text-align: center;
+  }
+
+  > .title-icon {
+    height: 150px;
+    width: 150px;
+    margin: 24px auto 0;
+    display: block;
+  }
+}
