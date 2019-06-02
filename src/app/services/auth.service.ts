@@ -94,4 +94,13 @@ export class AuthService {
   public logout(): Promise<void> {
     return this.afAuth.auth.signOut();
   }
+
+  /**
+   * Send a reset password link to an email account.
+   * @param email - The email to send a reset password link to.
+   * @returns - Resolves when the links has been sent.
+   */
+  public sendResetPasswordLink(email: string): Promise<void> {
+    return this.afAuth.auth.sendPasswordResetEmail(email);
+  }
 }
