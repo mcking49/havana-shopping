@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "havana-shopping",
+  "appId": "com.miten.havanashopping",
+  "appName": "Havana Shopping",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www"
