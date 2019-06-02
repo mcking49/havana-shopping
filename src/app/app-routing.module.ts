@@ -6,6 +6,7 @@ const routes: Routes = [
   { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
   { path: 'create-account', loadChildren: './pages/create-account/create-account.module#CreateAccountPageModule' },
   { path: 'forgot-password', loadChildren: './pages/forgot-password/forgot-password.module#ForgotPasswordPageModule' },
+  { path: 'create-team-user', loadChildren: './pages/create-team-user/create-team-user.module#CreateTeamUserPageModule' },
 ];
 @NgModule({
   imports: [
