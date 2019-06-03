@@ -15,4 +15,12 @@
       <ion-icon name="person-add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
+  <h1>People in your house</h1>
+
+  <ion-card *ngFor="let user of teamUsers" >
+    <ion-card-content>
+      {{user?.firstname}}
+    </ion-card-content>
+  </ion-card>
 </ion-content>

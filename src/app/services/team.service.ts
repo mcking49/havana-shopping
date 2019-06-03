@@ -1,3 +1,4 @@
+import { UserService } from 'src/app/services/user.service';
 import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentSnapshot } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
@@ -14,7 +15,10 @@ export class TeamService {
   private currentTeamPath: string;
   private currentTeamSubscription: Subscription;
 
-  constructor(private firestore: AngularFirestore) { }
+  constructor(
+    private firestore: AngularFirestore,
+    private userService: UserService
+  ) { }
 
   /**
    * Clear the stored data.
@@ -42,6 +46,20 @@ export class TeamService {
    */
   public generateNewTeamId(): string {
     return this.firestore.createId();
+  }
+
+  public async getCurrentTeam(): Promise<Team> {
+    if (this.currentTeam) {
+      return this.currentTeam;
+    } else {
+      const currentUser = await this.userService.getCurrentUser();
+      const teamId = currentUser.teamId;
+      this.currentTeamPath = `${this.teamRootPath}/${teamId}`;
+      console.log(this.currentTeamPath);
+      const snapshot: firebase.firestore.DocumentSnapshot
+        = await this.firestore.doc<Team>(this.currentTeamPath).get().toPromise();
+      return snapshot.data() as Team;
+    }
   }
 
   /**

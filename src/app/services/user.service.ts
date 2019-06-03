@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, DocumentSnapshot } from '@angular/fire/firestore';
+import { AngularFirestore, DocumentSnapshot, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
 import { User } from './../interfaces/user';
+import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -78,6 +79,28 @@ export class UserService {
    */
   public generateNewUserId(): string {
     return this.firestore.createId();
+  }
+
+  public async getCurrentUser(): Promise<User> {
+    if (this.currentUser) {
+      return this.currentUser;
+    } else {
+      const snapshot: firebase.firestore.DocumentSnapshot
+        = await this.firestore.doc<User>(this.currentUserPath).get().toPromise();
+      return snapshot.data() as User;
+    }
+  }
+
+  public async getTeamUsers(teamId: string): Promise<User[]> {
+    const userCollection: AngularFirestoreCollection<User> = this.firestore.collection<User>(this.userRootPath);
+    const query = userCollection.ref.where('teamId', '==', teamId);
+
+    const snapshot = await query.get();
+    const users: User[] = [];
+    _.each(snapshot.docs, (userDoc) => {
+      users.push(userDoc.data() as User);
+    });
+    return users;
   }
 
   /**
