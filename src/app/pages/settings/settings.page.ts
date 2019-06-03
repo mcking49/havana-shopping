@@ -1,9 +1,11 @@
+import { TeamService } from './../../services/team.service';
 import { UserService } from 'src/app/services/user.service';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
+import { User } from 'src/app/interfaces/user';
 
 @Component({
   selector: 'app-settings',
@@ -12,14 +14,19 @@ import * as _ from 'lodash';
 })
 export class SettingsPage implements OnInit {
 
+  public teamUsers: User[];
+
   constructor(
     private alertCtrl: AlertController,
     private authService: AuthService,
     private router: Router,
-    private userService: UserService
-  ) { }
+    private userService: UserService,
+  ) {
+    this.teamUsers = [];
+  }
 
   ngOnInit() {
+    this.getTeamMembers();
   }
 
   /**
@@ -28,6 +35,11 @@ export class SettingsPage implements OnInit {
    */
   public get isCurrentUserAdmin(): boolean {
     return _.get(this.userService, 'currentUser.teamAdmin', false);
+  }
+
+  public async getTeamMembers() {
+    const currentUser: User = await this.userService.getCurrentUser();
+    this.teamUsers = await this.userService.getTeamUsers(currentUser.teamId);
   }
 
   public async logout(): Promise<void> {
