@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-fab vertical="bottom" horizontal="end" position="fixed">
+  <ion-fab vertical="bottom" horizontal="end" position="fixed" *ngIf="isCurrentUserAdmin">
     <ion-fab-button routerLink="/create-team-user">
       <ion-icon name="person-add"></ion-icon>
     </ion-fab-button>

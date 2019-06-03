@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Subscription } from 'rxjs';
 
 import { TeamService } from './team.service';
 import { UserService } from './user.service';
@@ -11,6 +12,9 @@ import { User } from './../interfaces/user';
   providedIn: 'root'
 })
 export class AuthService {
+
+  public currentUser: firebase.User;
+  private currentUserSubscription: Subscription;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -34,7 +38,9 @@ export class AuthService {
   ): Promise<void> {
     return new Promise<void>(async (resolve, reject) => {
       try {
-        const userCredential: firebase.auth.UserCredential = await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+        const userCredential: firebase.auth.UserCredential
+          = await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+
         const teamId: string = this.teamService.generateNewTeamId();
         const user: User = {
           email,
@@ -67,10 +73,12 @@ export class AuthService {
    */
   public isLoggedIn(): Promise<boolean> {
     return new Promise<boolean>((resolve) => {
-      this.afAuth.user.subscribe((user) => {
+      this.afAuth.user.subscribe((user: firebase.User) => {
         if (user) {
+          this.currentUser = user;
           resolve(true);
         } else {
+          this.currentUser = null;
           resolve(false);
         }
       });
@@ -83,8 +91,20 @@ export class AuthService {
    * @param password - The password to login with.
    * @returns - Resolves when the login attempt has finished.
    */
-  public login(email: string, password: string): Promise<firebase.auth.UserCredential> {
-    return this.afAuth.auth.signInWithEmailAndPassword(email, password);
+  public async login(email: string, password: string): Promise<void> {
+    return new Promise<void>(async (resolve, reject) => {
+      try {
+        const userCredential: firebase.auth.UserCredential
+          = await this.afAuth.auth.signInWithEmailAndPassword(email, password);
+        this.currentUser = userCredential.user;
+        await this.userService.loadCurrentUser(this.currentUser.uid);
+        const teamId = this.userService.currentUser.teamId;
+        this.teamService.loadCurrentTeam(teamId);
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
 
   /**
@@ -92,6 +112,14 @@ export class AuthService {
    * @returns - Resolves when the user is logged out.
    */
   public logout(): Promise<void> {
+    if (this.currentUserSubscription) {
+      this.currentUserSubscription.unsubscribe();
+    }
+
+    this.currentUser = null;
+    this.userService.clearData();
+    this.teamService.clearData();
+
     return this.afAuth.auth.signOut();
   }
 
