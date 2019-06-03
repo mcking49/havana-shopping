@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Create Account</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="create-account" padding>
+  <form [formGroup]="createAccountForm">
+    <ion-item class="input-container">
+      <ion-label position="stacked">First Name</ion-label>
+      <ion-input type="text" formControlName="firstname" placeholder="Your first name"></ion-input>
+    </ion-item>
+
+    <ion-item class="input-container">
+      <ion-label position="stacked">Last Name</ion-label>
+      <ion-input type="text" formControlName="lastname" placeholder="Your last name"></ion-input>
+    </ion-item>
+
+    <ion-item class="input-container">
+      <ion-label position="stacked">Email</ion-label>
+      <ion-input type="email" formControlName="email" placeholder="Enter your email"></ion-input>
+    </ion-item>
+
+    <div formGroupName="passwords">
+      <ion-item class="input-container">
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input type="password" formControlName="password" placeholder="Enter your password"></ion-input>
+      </ion-item>
+
+      <ion-item class="input-container">
+        <ion-label position="stacked">Confirm Password</ion-label>
+        <ion-input type="password" formControlName="confirmPassword" placeholder="Enter your password again"></ion-input>
+      </ion-item>
+    </div>
+
+    <ion-button type="button"
+      class="submit-button"
+      (click)="createAccount()"
+      expand="block"
+      [disabled]="createAccountForm.invalid">
+      Create account
+    </ion-button>
+  </form>
+</ion-content>
