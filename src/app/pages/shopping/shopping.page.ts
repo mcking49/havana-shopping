@@ -2,6 +2,10 @@ import { TeamService } from './../../services/team.service';
 import { AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { ShoppingItemService } from 'src/app/services/shopping-item.service';
+import { Observable } from 'rxjs';
+import { ShoppingItem } from 'src/app/interfaces/shopping-item';
+import { Team } from 'src/app/interfaces/team';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-shopping',
@@ -10,6 +14,10 @@ import { ShoppingItemService } from 'src/app/services/shopping-item.service';
 })
 export class ShoppingPage implements OnInit {
 
+  public currentTeam: Team;
+  public itemsToBuy$: Observable<ShoppingItem[]>;
+  public itemsPickedUp$: Observable<ShoppingItem[]>;
+
   constructor(
     private alertCtrl: AlertController,
     private shoppingItemService: ShoppingItemService,
@@ -17,6 +25,20 @@ export class ShoppingPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.teamService.getCurrentTeam().then((team: Team) => {
+      this.currentTeam = team;
+      this.itemsToBuy$ = this.shoppingItemService
+        .getItemsToBuyList(this.currentTeam.id)
+        .valueChanges();
+
+      this.itemsPickedUp$ = this.shoppingItemService
+        .getItemsPickedUpList(this.currentTeam.id)
+        .valueChanges();
+    });
+  }
+
+  public get teamId(): string {
+    return _.get(this.currentTeam, 'id', '');
   }
 
   /**
@@ -48,6 +70,18 @@ export class ShoppingPage implements OnInit {
       ]
     });
     addItemAlert.present();
+  }
+
+  public pickItem(item: ShoppingItem): Promise<void> {
+    return this.shoppingItemService.pickItem(item, this.teamId);
+  }
+
+  public deleteItem(item: ShoppingItem): Promise<void> {
+    return this.shoppingItemService.deleteItem(item, this.teamId);
+  }
+
+  public unPickItem(item: ShoppingItem): Promise<void> {
+    return this.shoppingItemService.unPickItem(item, this.teamId);
   }
 
 }

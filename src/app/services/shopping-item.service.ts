@@ -1,5 +1,5 @@
 import { ShoppingItem } from './../interfaces/shopping-item';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -25,6 +25,40 @@ export class ShoppingItemService {
     const itemPath = `${this.getShoppingListPath(teamId)}/${shoppingItem.id}`;
 
     return this.firestore.doc<ShoppingItem>(itemPath).set(shoppingItem);
+  }
+
+  public deleteItem(item: ShoppingItem, teamId: string): Promise<void> {
+    const itemPath = `${this.getShoppingListPath(teamId)}/${item.id}`;
+    return this.firestore.doc<ShoppingItem>(itemPath).delete();
+  }
+
+  public getItemsToBuyList(teamId: string): AngularFirestoreCollection<ShoppingItem> {
+    return this.firestore.collection<ShoppingItem>(this.getShoppingListPath(teamId),
+      ref => ref.where('picked', '==', false)
+    );
+  }
+
+  public getItemsPickedUpList(teamId: string): AngularFirestoreCollection<ShoppingItem> {
+    return this.firestore.collection<ShoppingItem>(this.getShoppingListPath(teamId),
+      ref => ref.where('picked', '==', true)
+    );
+  }
+
+  public pickItem(item: ShoppingItem, teamId: string): Promise<void> {
+    const itemPath = `${this.getShoppingListPath(teamId)}/${item.id}`;
+    return this.firestore.doc<ShoppingItem>(itemPath).update({picked: true});
+
+    // Below is unused code that does the same thing, but uses firebase transactons instead of direct updates.
+    // const itemRef: firebase.firestore.DocumentReference = this.firestore.doc<ShoppingItem>(itemPath).ref;
+
+    // return this.firestore.firestore.runTransaction(async (transaction: firebase.firestore.Transaction) => {
+    //   transaction.update(itemRef, {picked: true});
+    // });
+  }
+
+  public unPickItem(item: ShoppingItem, teamId: string): Promise<void> {
+    const itemPath = `${this.getShoppingListPath(teamId)}/${item.id}`;
+    return this.firestore.doc<ShoppingItem>(itemPath).update({picked: false});
   }
 
   /**

@@ -4,11 +4,33 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="shopping-page" padding>
+  <ion-list>
+    <ion-list-header class="list-title">Item's to buy</ion-list-header>
+    <ion-item *ngFor="let item of itemsToBuy$ | async">
+      <ion-label>{{item.name}}</ion-label>
+      <ion-button slot="end" (click)="deleteItem(item)" color="danger">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+      <ion-button slot="end" (click)="pickItem(item)" color="success">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header class="list-title">Item's picked up</ion-list-header>
+    <ion-item *ngFor="let item of itemsPickedUp$ | async">
+      <ion-label>{{item.name}}</ion-label>
+      <ion-button slot="end" (click)="unPickItem(item)" color="danger">
+        <ion-icon name="remove"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
   <ion-fab vertical="bottom" horizontal="end" position="fixed">
-    <ion-fab-button (click)="addItemToShoppingList()">
+    <ion-fab-button (click)="addItemToShoppingList()" color="success">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-
 </ion-content>
