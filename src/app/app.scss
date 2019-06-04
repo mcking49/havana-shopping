@@ -1,6 +1,13 @@
 // App Styles
 // ----------------------------------------------------------------------------
-// Put style rules here that you want to apply to the entire application. These 
-// styles are for the entire app and not just one component. Additionally, this 
-// file can hold Sass mixins, functions, and placeholder classes to be imported 
+// Put style rules here that you want to apply to the entire application. These
+// styles are for the entire app and not just one component. Additionally, this
+// file can hold Sass mixins, functions, and placeholder classes to be imported
 // and used throughout the application.
+
+ion-grid {
+  box-shadow: 0 0 16px 4px rgba(0, 0, 0, 0.2);
+  height: 100%;
+  padding: 16px;
+  background-color: white;
+}

@@ -7,30 +7,32 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <form [formGroup]="userForm">
-    <ion-item class="input-container">
-      <ion-label position="stacked">First name</ion-label>
-      <ion-input type="text" formControlName="firstname" placeholder="e.g. Bob"></ion-input>
-    </ion-item>
+<ion-content color="light">
+  <ion-grid fixed>
+    <form [formGroup]="userForm">
+      <ion-item class="input-container">
+        <ion-label position="stacked">First name</ion-label>
+        <ion-input type="text" formControlName="firstname" placeholder="e.g. Bob"></ion-input>
+      </ion-item>
 
-    <ion-item class="input-container">
-      <ion-label position="stacked">Last name</ion-label>
-      <ion-input type="text" formControlName="lastname" placeholder="e.g. Smith"></ion-input>
-    </ion-item>
+      <ion-item class="input-container">
+        <ion-label position="stacked">Last name</ion-label>
+        <ion-input type="text" formControlName="lastname" placeholder="e.g. Smith"></ion-input>
+      </ion-item>
 
-    <ion-item class="input-container">
-      <ion-label position="stacked">Email</ion-label>
-      <ion-input type="email" formControlName="email" placeholder="e.g. bob@smith.com"></ion-input>
-    </ion-item>
+      <ion-item class="input-container">
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input type="email" formControlName="email" placeholder="e.g. bob@smith.com"></ion-input>
+      </ion-item>
 
-    <ion-button
-      type="button"
-      class="submit-button"
-      expand="block"
-      (click)="createTeamUser()"
-      [disabled]="userForm.invalid">
-      Add user
-    </ion-button>
-  </form>
+      <ion-button
+        type="button"
+        class="submit-button"
+        expand="block"
+        (click)="createTeamUser()"
+        [disabled]="userForm.invalid">
+        Add user
+      </ion-button>
+    </form>
+  </ion-grid>
 </ion-content>
