@@ -7,7 +7,7 @@ import { firebaseConfig } from './config/firebase.staging';
 export const environment = {
   production: false,
   firebase: firebaseConfig,
-  enableSW: false,
+  enableSW: true,
 };
 
 /*
