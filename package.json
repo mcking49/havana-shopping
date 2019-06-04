@@ -12,8 +12,9 @@
     "e2e": "ng e2e",
     "dev": "ionic serve -c",
     "deploy:staging": "ionic build && firebase use default && firebase deploy",
-    "deploy:production": "ionic build --prod && firebase use production && firebase deploy",
-    "deploy:production:android": "ionic build --prod && npx cap copy && npx cap sync && npx cap open android"
+    "deploy:prod": "ionic build --prod && firebase use production && firebase deploy",
+    "deploy:prod:android": "ionic build --prod && npx cap copy && npx cap sync && npx cap open android",
+    "deploy:all": "npm run deploy:staging && npm run deploy:prod && npm run deploy:prod:android"
   },
   "private": true,
   "dependencies": {
