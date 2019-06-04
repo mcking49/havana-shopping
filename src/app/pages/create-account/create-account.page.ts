@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, NavController } from '@ionic/angular';
 
 import { AuthService } from './../../services/auth.service';
 import { ToastService } from './../../services/toast.service';
@@ -20,7 +19,7 @@ export class CreateAccountPage implements OnInit {
     private authService: AuthService,
     private formbuilder: FormBuilder,
     private loadingCtrl: LoadingController,
-    private router: Router,
+    private navCtrl: NavController,
     private toastService: ToastService
   ) { }
 
@@ -52,7 +51,7 @@ export class CreateAccountPage implements OnInit {
 
       try {
         await this.authService.createAdminUser(firstname, lastname, email, password);
-        this.router.navigateByUrl('/tabs');
+        this.navCtrl.navigateRoot('/tabs');
       } catch (error) {
         if (error.code === 'auth/email-already-in-use') {
           this.toastService.showInfoToast(`ERROR: ${error.message}`);

@@ -1,7 +1,6 @@
-import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, NavController } from '@ionic/angular';
 import { ToastService } from './../../services/toast.service';
 import { AuthService } from './../../services/auth.service';
 
@@ -19,7 +18,7 @@ export class LoginPage implements OnInit {
     private formbuilder: FormBuilder,
     private loadingCtrl: LoadingController,
     private toastService: ToastService,
-    private router: Router
+    private navCtrl: NavController
   ) { }
 
   ngOnInit() {
@@ -38,7 +37,7 @@ export class LoginPage implements OnInit {
         const email: string = this.loginForm.value.email;
         const password: string = this.loginForm.value.password;
         await this.authService.login(email, password);
-        this.router.navigateByUrl('/tabs');
+        this.navCtrl.navigateRoot('/tabs');
       } catch (error) {
         if (error.code === 'auth/user-not-found') {
           this.toastService.showInfoToast('Your email or password is incorrect.');

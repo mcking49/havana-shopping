@@ -55,7 +55,6 @@ export class TeamService {
       const currentUser = await this.userService.getCurrentUser();
       const teamId = currentUser.teamId;
       this.currentTeamPath = `${this.teamRootPath}/${teamId}`;
-      console.log(this.currentTeamPath);
       const snapshot: firebase.firestore.DocumentSnapshot
         = await this.firestore.doc<Team>(this.currentTeamPath).get().toPromise();
       return snapshot.data() as Team;

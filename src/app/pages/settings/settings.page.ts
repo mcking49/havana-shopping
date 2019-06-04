@@ -2,8 +2,7 @@ import { TeamService } from './../../services/team.service';
 import { UserService } from 'src/app/services/user.service';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { AlertController, NavController } from '@ionic/angular';
 import * as _ from 'lodash';
 import { User } from 'src/app/interfaces/user';
 
@@ -19,7 +18,7 @@ export class SettingsPage implements OnInit {
   constructor(
     private alertCtrl: AlertController,
     private authService: AuthService,
-    private router: Router,
+    private navCtrl: NavController,
     private userService: UserService,
   ) {
     this.teamUsers = [];
@@ -54,7 +53,7 @@ export class SettingsPage implements OnInit {
           text: 'Yes',
           handler: () => {
             this.authService.logout();
-            this.router.navigateByUrl('/login');
+            this.navCtrl.navigateRoot('/login');
           }
         }
       ]
