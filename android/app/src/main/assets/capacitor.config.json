@@ -1,0 +1,7 @@
+{
+  "appId": "com.poweroften.havanashopping",
+  "appName": "Havana Shopping",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www"
+}
