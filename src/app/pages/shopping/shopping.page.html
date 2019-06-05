@@ -7,7 +7,7 @@
 <ion-content class="shopping-page" color="light">
   <ion-grid fixed>
     <ion-list>
-      <ion-list-header class="list-title">Item's to buy</ion-list-header>
+      <ion-list-header class="list-title">Items to buy</ion-list-header>
       <ion-item *ngFor="let item of itemsToBuy$ | async">
         <ion-label>{{item.name}}</ion-label>
         <ion-button slot="end" (click)="deleteItem(item)" color="danger">
@@ -20,7 +20,7 @@
     </ion-list>
 
     <ion-list>
-      <ion-list-header class="list-title">Item's picked up</ion-list-header>
+      <ion-list-header class="list-title">Items picked up</ion-list-header>
       <ion-item *ngFor="let item of itemsPickedUp$ | async">
         <ion-label>{{item.name}}</ion-label>
         <ion-button slot="end" (click)="unPickItem(item)" color="danger">
