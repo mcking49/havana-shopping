@@ -1,5 +1,6 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+import * as _ from 'lodash';
 admin.initializeApp()
 
 /**
@@ -51,4 +52,40 @@ exports.createTeamUserRequest = functions.firestore
       updateTeamMembersPromise,
       deleteCreateTeamUserRequestPromise,
     ]);
+  });
+
+/**
+ * Add the new user to the admin list of users.
+ */
+exports.addNewUserToAdminList = functions.firestore
+  .document('user/{userId}')
+  .onCreate(async (snapshot) => {
+    const email: string = snapshot.get('email');;
+
+
+    const userEmailsRef = admin.firestore().doc('admin/users');
+
+    return admin.firestore().runTransaction(async (transaction) => {
+      const currentEmailListSnapshot = await admin.firestore().doc('admin/users').get();
+      const emailList: string[] = currentEmailListSnapshot.get('userEmails');
+      emailList.push(email);
+      transaction.update(userEmailsRef, {userEmails: emailList});
+    });
+  });
+
+/**
+ * Delete a user from the admin list of users.
+ */
+exports.removeUserFromAdminList = functions.firestore
+  .document('user/{userId}')
+  .onDelete(async (snapshot) => {
+    const email: string = snapshot.get('email');
+
+    const userEmailsRef = admin.firestore().doc('admin/users');
+
+    return admin.firestore().runTransaction(async (transaction) => {
+      const currentEmailListSnapshot = await admin.firestore().doc('admin/users').get();
+      const emailList: string[] = currentEmailListSnapshot.get('userEmails');
+      transaction.update(userEmailsRef, {userEmails: _.pull(emailList, email)});
+    });
   });

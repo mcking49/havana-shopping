@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentSnapshot, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
+import { AdminService } from './admin.service';
 import { User } from './../interfaces/user';
 import * as _ from 'lodash';
 
@@ -16,7 +17,7 @@ export class UserService {
   private readonly userRootPath: string = 'user';
   private currentUserPath: string;
 
-  constructor(private firestore: AngularFirestore) { }
+  constructor(private adminService: AdminService, private firestore: AngularFirestore) { }
 
   /**
    * Clear any stored data.
@@ -39,6 +40,9 @@ export class UserService {
   public async createTeamUser(firstname: string, lastname: string, email: string): Promise<void> {
     return new Promise<void>(async (resolve, reject) => {
       try {
+        if (this.adminService.checkEmailExists(email)) {
+          throw new Error('ERROR: The email address is already in use');
+        }
         // Only team admins can create team users. Therefore we can assume
         // that the the team user is being added to the current users
         // team and hence have the same teamId's.

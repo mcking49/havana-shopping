@@ -42,7 +42,7 @@ export class CreateTeamUserPage implements OnInit {
         this.navCtrl.pop();
         this.toastService.showInfoToast('The new user has been added to the team!');
       } catch (error) {
-        console.error(error);
+        this.toastService.showInfoToast(error.message);
       } finally {
         loading.dismiss();
       }
