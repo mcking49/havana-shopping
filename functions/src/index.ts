@@ -33,7 +33,7 @@ exports.createTeamUserRequest = functions.firestore
       = admin.firestore().doc(`user/${user.id}`).set(user);
 
     // Get the current team members list.
-    const team = await admin.firestore().doc(`team/${user.teamId}`).get()
+    const team = await admin.firestore().doc(`team/${user.teamId}`).get();
     const members: string[] = team.get('members');
     members.push(user.id);
 
@@ -61,7 +61,6 @@ exports.addNewUserToAdminList = functions.firestore
   .document('user/{userId}')
   .onCreate(async (snapshot) => {
     const email: string = snapshot.get('email');;
-
 
     const userEmailsRef = admin.firestore().doc('admin/users');
 
