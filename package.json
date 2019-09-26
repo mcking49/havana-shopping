@@ -11,6 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "dev": "ionic serve -c",
+    "setup": "npm install && pushd functions/ && npm install && popd",
     "deploy:staging": "ionic build && firebase use default && firebase deploy",
     "deploy:prod": "ionic build --prod && firebase use production && firebase deploy",
     "deploy:prod:android": "ionic build --prod && npx cap copy && npx cap sync && npx cap open android",
