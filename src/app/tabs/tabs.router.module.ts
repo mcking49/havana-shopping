@@ -18,6 +18,15 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'inventory',
+        children: [
+          {
+            path: '',
+            loadChildren: '../pages/inventory/inventory.module#InventoryPageModule'
+          }
+        ]
+      },
+      {
         path: 'settings',
         children: [
           {
