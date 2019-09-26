@@ -1,9 +1,22 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>inventory</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>Inventory</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content class="inventory-page" color="light">
+  <ion-grid fixed>
+    <ion-list>
+      <ion-list-header class="list-title">Items</ion-list-header>
+      <ion-item *ngFor="let item of items$ | async">
+        <ion-label>{{item.name}}</ion-label>
+        <ion-button slot="end" (click)="deleteItem(item)" color="danger">
+          <ion-icon name="trash"></ion-icon>
+        </ion-button>
+        <ion-button slot="end" (click)="addToShoppingList(item)" color="success">
+          <ion-icon slot="icon-only" name="add"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </ion-grid>
 </ion-content>
