@@ -34,8 +34,17 @@ exports.createTeamUserRequest = functions.firestore
 
     // Get the current team members list.
     const team = await admin.firestore().doc(`team/${user.teamId}`).get();
-    const members: string[] = team.get('members');
-    members.push(user.id);
+    let members: string[] = team.get('members');
+
+    // This code can break if `members` is undefined. This should never be true, however it is good practice
+    // to handle this scenario.
+    try {
+      members.push(user.id);
+    } catch (error) {
+      console.warn('ERROR CAUGHT: members.push(user.id) failed');
+      console.warn(error);
+      members = [user.id];
+    }
 
     // Create promise for updating the current team list.
     const updateTeamMembersPromise: Promise<any>
@@ -60,7 +69,7 @@ exports.createTeamUserRequest = functions.firestore
 exports.addNewUserToAdminList = functions.firestore
   .document('user/{userId}')
   .onCreate(async (snapshot) => {
-    const email: string = snapshot.get('email');;
+    const email: string = snapshot.get('email');
 
     const userEmailsRef = admin.firestore().doc('admin/users');
 

@@ -13,7 +13,7 @@ import { User } from 'src/app/interfaces/user';
 })
 export class SettingsPage implements OnInit {
 
-  public teamUsers: User[];
+  public teamUsers: User[]; // FIXME: convert to an observable to keep it synced with database.
 
   constructor(
     private alertCtrl: AlertController,
