@@ -8,7 +8,7 @@
   <ion-grid fixed>
     <ion-list>
       <ion-list-header class="list-title">Items</ion-list-header>
-      <ion-item *ngFor="let item of items$ | async">
+      <ion-item *ngFor="let item of inventory$ | async">
         <ion-label>{{item.name}}</ion-label>
         <ion-button slot="end" (click)="deleteItem(item)" color="danger">
           <ion-icon name="trash"></ion-icon>
