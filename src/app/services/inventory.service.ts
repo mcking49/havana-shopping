@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { ShoppingItem } from '../interfaces/shopping-item';
 import { ShoppingItemService } from './shopping-item.service';
+import { Subscription } from 'rxjs';
+import { first } from 'rxjs/operators';
+import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +36,30 @@ export class InventoryService {
    */
   public getInventory(teamId: string): AngularFirestoreCollection<ShoppingItem> {
     return this.firestore.collection<ShoppingItem>(this.path(teamId));
+  }
+
+  /**
+   * Move picked items from the shopping list into the inventory.
+   * @param teamId - The ID of the team the shopping list belongs to.
+   * @returns - Resolves when the subscription has been created.
+   * FIXME: I think this method could be improved.
+   */
+  public async movePickedToInventory(teamId: string): Promise<Subscription> {
+    let pickedItems: ShoppingItem[] = [];
+    return this.shoppingItemService
+      .getItemsPickedUpList(teamId)
+      .valueChanges()
+      .pipe(
+        first() // Automatically unsubscribe after the first value is emitted.
+      )
+      .subscribe((items: ShoppingItem[]) => {
+        pickedItems = items;
+        const movePromises: Promise<any>[] = [];
+        _.each(pickedItems, (item: ShoppingItem) => {
+          movePromises.push(this.firestore.collection<ShoppingItem>(this.path(teamId)).add(item));
+          movePromises.push(this.shoppingItemService.deleteItem(item, teamId));
+        });
+      });
   }
 
   /**

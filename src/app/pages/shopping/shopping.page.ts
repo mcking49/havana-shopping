@@ -1,9 +1,10 @@
 import { TeamService } from './../../services/team.service';
 import { AlertController } from '@ionic/angular';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ShoppingItemService } from 'src/app/services/shopping-item.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ShoppingItem } from 'src/app/interfaces/shopping-item';
+import { InventoryService } from 'src/app/services/inventory.service';
 import { Team } from 'src/app/interfaces/team';
 import * as _ from 'lodash';
 
@@ -12,14 +13,16 @@ import * as _ from 'lodash';
   templateUrl: './shopping.page.html',
   styleUrls: ['./shopping.page.scss'],
 })
-export class ShoppingPage implements OnInit {
+export class ShoppingPage implements OnInit, OnDestroy {
 
   public currentTeam: Team;
   public itemsToBuy$: Observable<ShoppingItem[]>;
-  public itemsPickedUp$: Observable<ShoppingItem[]>;
+  public itemsPickedUpSubscription: Subscription;
+  public itemsPickedUp: ShoppingItem[] = [];
 
   constructor(
     private alertCtrl: AlertController,
+    private inventoryService: InventoryService,
     private shoppingItemService: ShoppingItemService,
     private teamService: TeamService
   ) { }
@@ -31,10 +34,17 @@ export class ShoppingPage implements OnInit {
         .getItemsToBuyList(this.currentTeam.id)
         .valueChanges();
 
-      this.itemsPickedUp$ = this.shoppingItemService
+      this.itemsPickedUpSubscription = this.shoppingItemService
         .getItemsPickedUpList(this.currentTeam.id)
-        .valueChanges();
+        .valueChanges()
+        .subscribe((itemsPickedUp: ShoppingItem[]) => {
+          this.itemsPickedUp = itemsPickedUp;
+        });
     });
+  }
+
+  ngOnDestroy() {
+    this.itemsPickedUpSubscription.unsubscribe();
   }
 
   public get teamId(): string {
@@ -70,6 +80,25 @@ export class ShoppingPage implements OnInit {
       ]
     });
     addItemAlert.present();
+  }
+
+  public async finishShopping(): Promise<void> {
+    const confirm = await this.alertCtrl.create({
+      header: 'Are you sure you have finished shopping?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel'
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.inventoryService.movePickedToInventory(this.teamId);
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
   public pickItem(item: ShoppingItem): Promise<void> {

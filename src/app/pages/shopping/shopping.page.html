@@ -21,13 +21,19 @@
 
     <ion-list>
       <ion-list-header class="list-title">Items picked up</ion-list-header>
-      <ion-item *ngFor="let item of itemsPickedUp$ | async">
+      <ion-item *ngFor="let item of itemsPickedUp">
         <ion-label>{{item.name}}</ion-label>
         <ion-button slot="end" (click)="unPickItem(item)" color="danger">
           <ion-icon name="remove"></ion-icon>
         </ion-button>
       </ion-item>
     </ion-list>
+
+    <ion-fab vertical="bottom" horizontal="first" position="fixed" *ngIf="itemsPickedUp.length">
+      <ion-fab-button (click)="finishShopping()" color="primary">
+        <ion-icon name="checkmark"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
 
     <ion-fab vertical="bottom" horizontal="end" position="fixed">
       <ion-fab-button (click)="addItemToShoppingList()" color="success">
