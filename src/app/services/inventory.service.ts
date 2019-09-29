@@ -30,6 +30,16 @@ export class InventoryService {
   }
 
   /**
+   * Delete an item from the inventory.
+   * @param item - The item to be deleted.
+   * @param teamId - The ID of the team the item belongs to.
+   */
+  public deleteItem(item: ShoppingItem, teamId: string): Promise<void> {
+    const itemPath = `${this.path(teamId)}/${item.id}`;
+    return this.firestore.doc<ShoppingItem>(itemPath).delete();
+  }
+
+  /**
    * Get the team's inventory.
    * @param teamId - The ID of the team the inventory belongs to.
    * @returns - A Collection of items in the inventory.
@@ -56,7 +66,7 @@ export class InventoryService {
         pickedItems = items;
         const movePromises: Promise<any>[] = [];
         _.each(pickedItems, (item: ShoppingItem) => {
-          movePromises.push(this.firestore.collection<ShoppingItem>(this.path(teamId)).add(item));
+          movePromises.push(this.firestore.collection<ShoppingItem>(this.path(teamId)).doc(item.id).set(item));
           movePromises.push(this.shoppingItemService.deleteItem(item, teamId));
         });
       });
