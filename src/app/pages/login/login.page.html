@@ -1,0 +1,41 @@
+<ion-content class="login" color="light">
+  <ion-grid fixed>
+    <ion-icon class="title-icon" name="person" color="primary"></ion-icon>
+    <h1 class="title">Welcome</h1>
+
+    <form [formGroup]="loginForm">
+      <ion-item class="input-container">
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input
+          type="email"
+          formControlName="email"
+          placeholder="Please enter your email">
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="input-container">
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input
+          type="password"
+          formControlName="password"
+          placeholder="Please enter your password">
+        </ion-input>
+      </ion-item>
+
+      <ion-button type="button"
+        class="submit-button"
+        (click)="login()"
+        [disabled]="loginForm.invalid"
+        expand="block">
+        Login
+      </ion-button>
+    </form>
+
+    <div class="button-container">
+      <ion-button type="button" routerLink="/create-account" fill="clear">Create an account</ion-button>
+    </div>
+    <div class="button-container">
+      <ion-button type="button" routerLink="/forgot-password" fill="clear">Forgot Password</ion-button>
+    </div>
+  </ion-grid>
+</ion-content>

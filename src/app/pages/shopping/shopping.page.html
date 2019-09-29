@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Shopping List</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="shopping-page" color="light">
+  <ion-grid fixed>
+    <ion-list>
+      <ion-list-header class="list-title">Items to buy</ion-list-header>
+      <ion-item *ngFor="let item of itemsToBuy$ | async">
+        <ion-label>{{item.name}}</ion-label>
+        <ion-button slot="end" (click)="deleteItem(item)" color="danger">
+          <ion-icon name="trash"></ion-icon>
+        </ion-button>
+        <ion-button slot="end" (click)="pickItem(item)" color="success">
+          <ion-icon slot="icon-only" name="add"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+
+    <ion-list>
+      <ion-list-header class="list-title">Items picked up</ion-list-header>
+      <ion-item *ngFor="let item of itemsPickedUp">
+        <ion-label>{{item.name}}</ion-label>
+        <ion-button slot="end" (click)="unPickItem(item)" color="danger">
+          <ion-icon name="remove"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+
+    <ion-fab vertical="bottom" horizontal="first" position="fixed" *ngIf="itemsPickedUp.length">
+      <ion-fab-button (click)="finishShopping()" color="primary">
+        <ion-icon name="checkmark"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+    <ion-fab vertical="bottom" horizontal="end" position="fixed">
+      <ion-fab-button (click)="addItemToShoppingList()" color="success">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ion-grid>
+</ion-content>

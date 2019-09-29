@@ -1,0 +1,26 @@
+{
+  "firestore": {
+    "team": {
+      "id": {
+        "admin": "string: user ID of team admin",
+        "id": "string",
+        "members": "string[]: array of user ID's of user's who belong to the team"
+      }
+    },
+    "user": {
+      "id": {
+        "email": "string",
+        "firstname": "string",
+        "id": "string",
+        "lastname": "string",
+        "teamAdmin": "boolean: true if the user created their own account and are and admin of a team",
+        "teamId": "string: ID of the team the user belongs to"
+      }
+    },
+    "admin": {
+      "users": {
+        "userEmails": "string[]: array of user emails of user's who are an admin of a team"
+      }
+    }
+  }
+}

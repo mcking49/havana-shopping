@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Havana Shopping</string>
+    <string name="title_activity_main">Havana Shopping</string>
+    <string name="package_name">com.poweroften.havanashopping</string>
+    <string name="fileprovider_authority">com.poweroften.havanashopping.fileprovider</string>
+    <string name="custom_url_scheme">com.poweroften.havanashopping</string>
+</resources>

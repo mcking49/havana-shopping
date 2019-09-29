@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Settings</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon slot="icon-only" name="log-out"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+  <ion-grid fixed>
+    <ion-fab vertical="bottom" horizontal="end" position="fixed" *ngIf="isCurrentUserAdmin">
+      <ion-fab-button routerLink="/create-team-user">
+        <ion-icon name="person-add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+    <h1>People in your house</h1>
+
+    <ion-card *ngFor="let user of teamUsers" >
+      <ion-card-content>
+        {{user?.firstname}}
+      </ion-card-content>
+    </ion-card>
+  </ion-grid>
+</ion-content>
